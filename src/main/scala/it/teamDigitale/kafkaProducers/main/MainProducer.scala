@@ -1,15 +1,15 @@
 package it.teamDigitale.kafkaProducers.main
 
 import java.util.Properties
-import java.util.concurrent.{ Executors, ScheduledFuture, TimeUnit }
+import java.util.concurrent.{Executors, ScheduledFuture, TimeUnit}
 
 import com.typesafe.config.ConfigFactory
 import it.teamDigitale.kafkaProducers.KafkaEventProducer
-import it.teamDigitale.kafkaProducers.eventConverters.{ EventConverter, FirenzeTrafficConverter, TorinoParkingConverter, TorinoTrafficConverter }
+import it.teamDigitale.kafkaProducers.eventConverters._
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.slf4j.LoggerFactory
 
-import scala.reflect.{ ClassTag, classTag }
+import scala.reflect.{ClassTag, classTag}
 
 /**
  * Created by fabiana on 30/03/17.
@@ -44,10 +44,12 @@ object MainProducer {
 
       case Array(producerType: String, period: String) =>
         val producer = Producer.withName(producerType)
-        val kafkaEventProducer: KafkaEventProducer[_ >: FirenzeTrafficConverter with TorinoParkingConverter with TorinoTrafficConverter <: EventConverter] = producer match {
+        val kafkaEventProducer: KafkaEventProducer[_  <: EventConverter] = producer match {
           case Producer.FirenzeTraffic => new KafkaEventProducer[FirenzeTrafficConverter](props, topic)
           case Producer.TorinoParking => new KafkaEventProducer[TorinoParkingConverter](props, topic)
           case Producer.TorinoTraffic => new KafkaEventProducer[TorinoTrafficConverter](props, topic)
+          case Producer.InfoBluEvent => new KafkaEventProducer[InfoBluEventConverter](props, topic)
+          case Producer.InfoBluTraffic => new KafkaEventProducer[InfoBluTrafficConverter](props, topic)
         }
 
         val timeStamp = System.currentTimeMillis()
@@ -91,6 +93,6 @@ object MainProducer {
 
 object Producer extends Enumeration {
   type Producer = Value
-  val TorinoTraffic, FirenzeTraffic, TorinoParking = Value
+  val TorinoTraffic, FirenzeTraffic, TorinoParking, InfoBluEvent, InfoBluTraffic = Value
 }
 

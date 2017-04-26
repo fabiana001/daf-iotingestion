@@ -56,7 +56,7 @@ object HDFSConsumerMain {
     val stream = consumer.getStream
 
     stream.print(100)
-    stream.foreachRDD(rdd => consumer.saveAsParquet(rdd, spark.getOrCreate(), filename, List("ts", "host")))
+    stream.foreachRDD(rdd => consumer.saveAsParquet(rdd, spark.getOrCreate(), filename, List("host", "ts")))
 
     ssc.start()
     ssc.awaitTermination()

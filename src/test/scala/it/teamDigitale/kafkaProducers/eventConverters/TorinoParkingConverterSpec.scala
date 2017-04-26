@@ -7,9 +7,9 @@ import org.scalatest.FunSuite
 import scala.util.Success
 
 /**
-  * Created by fabiana on 30/03/17.
-  */
-class TorinoParkingConverterSpec  extends FunSuite {
+ * Created by fabiana on 30/03/17.
+ */
+class TorinoParkingConverterSpec extends FunSuite {
   val torinoParkingConverter = new TorinoParkingConverter()
   val data = torinoParkingConverter.convert()
   test("Xml data from Torino sensor should be correctly converted into DataPoint") {

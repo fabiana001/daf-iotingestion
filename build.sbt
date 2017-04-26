@@ -116,6 +116,7 @@ val commonDependencies = Seq(
   "org.influxdb" % "influxdb-java" % "2.5",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.7",
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.8.7",
+  "org.mapdb" % "mapdb" % "3.0.3",
 
   //Logging Dependencies
  // "org.apache.logging.log4j" % "log4j-api" % apacheLog4jVersion % "compile",
@@ -136,7 +137,7 @@ val commonDependencies = Seq(
 
   //Test Dependencies
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-  "org.json4s" %% "json4s-native" % json4sVersion % "test")
+  "org.json4s" %% "json4s-native" % json4sVersion % "test").map(x => x.exclude("org.scalactic", "scalactic"))
 
 
 
